@@ -101,7 +101,7 @@ function BackgroundVideo({ src, lazy = false, zoom = false, className }: Backgro
     }
 
     const p = video.play()
-    if (p && typeof p.catch === 'function') p.catch(() => {})
+    if (p && typeof p.catch === 'function') p.catch(() => { })
   }, [canUseVideo, inView, ref, shouldLoad])
 
   if (!canUseVideo) return null
@@ -114,6 +114,7 @@ function BackgroundVideo({ src, lazy = false, zoom = false, className }: Backgro
         zoom ? 'scale-[1.05]' : '',
         className ?? '',
       ].join(' ')}
+      style={{ backgroundColor: '#0b0f0e' }}
       autoPlay
       muted
       loop
@@ -139,11 +140,6 @@ function HomePage() {
         title: 'Thermal Risk Classification',
         description:
           'Surfaces abnormal thermal behaviour and flags assets that breach operational safety thresholds before deployment.',
-      },
-      {
-        title: 'Carbon Impact Scoring',
-        description:
-          'Calculates embodied carbon outcomes across reuse, remanufacture, and recycling pathways for compliance reporting.',
       },
     ],
     [],
@@ -178,7 +174,7 @@ function HomePage() {
   return (
     <>
       {/* Hero */}
-      <section id="top" className="relative min-h-screen overflow-hidden">
+      <section id="top" className="relative min-h-screen overflow-hidden bg-ink">
         <div className="absolute inset-0">
           <BackgroundVideo src="/videos/hero.mp4" />
           <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/55 to-black/35" />
@@ -190,15 +186,15 @@ function HomePage() {
             className="s2s-fade-up text-xs font-medium tracking-[0.28em] text-white/60"
             style={{ animationDelay: '100ms' }}
           >
-            CLIMATE-TECH AI PLATFORM
+            BATTERY LIFECYCLE INTELLIGENCE SYSTEM
           </p>
           <h1
             className="s2s-fade-up mt-5 max-w-3xl text-balance text-4xl font-semibold leading-tight tracking-[-0.03em] text-white sm:text-6xl"
             style={{ animationDelay: '220ms' }}
           >
-            Battery Intelligence Infrastructure
+            Operational Decision Support for EV Battery Reuse and Recycling
             <br className="hidden sm:block" />
-            for Second-Life Decisioning
+
           </h1>
           <p
             className="s2s-fade-up mt-6 max-w-xl text-pretty text-sm leading-relaxed text-white/70 sm:text-base"
@@ -238,7 +234,7 @@ function HomePage() {
             </p>
           </div>
 
-          <div className="mt-12 grid gap-6 md:grid-cols-3">
+          <div className="mx-auto mt-12 grid max-w-4xl gap-8 md:grid-cols-2">
             {platformBlocks.map((block) => (
               <article key={block.title} className="h-full rounded-2xl border border-white/12 bg-white/5 p-6 text-left">
                 <h3 className="text-sm font-semibold text-white/90">{block.title}</h3>
@@ -272,7 +268,7 @@ function HomePage() {
       </section>
 
       {/* Cinematic Video Section */}
-      <section id="second-life" className="relative overflow-hidden border-t border-white/10 py-28">
+      <section id="second-life" className="relative overflow-hidden border-t border-white/10 bg-ink py-28">
         <div className="absolute inset-0">
           <BackgroundVideo src="/videos/section.mp4" lazy zoom />
           <div className="absolute inset-0 bg-black/55" />

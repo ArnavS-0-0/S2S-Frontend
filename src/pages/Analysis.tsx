@@ -87,9 +87,10 @@ export function AnalysisPage() {
   return (
     <main className="min-h-screen bg-ink text-white">
       {/* Full-screen hero with background video */}
-      <section className="relative min-h-screen overflow-hidden">
+      <section className="relative min-h-screen overflow-hidden bg-ink">
         <video
           className="pointer-events-none absolute inset-0 h-full w-full object-cover -z-20"
+          style={{ backgroundColor: '#0b0f0e' }}
           src="/videos/video3.mp4"
           autoPlay
           loop
