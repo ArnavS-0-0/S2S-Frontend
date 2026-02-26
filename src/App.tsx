@@ -1,4 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { Link, Route, Routes, useNavigate } from 'react-router-dom'
+import { AnalysisPage } from './pages/Analysis'
 
 function usePrefersReducedMotion() {
   const [reduced, setReduced] = useState(false)
@@ -122,16 +124,9 @@ function BackgroundVideo({ src, lazy = false, zoom = false, className }: Backgro
   )
 }
 
-function App() {
-  const [scrolled, setScrolled] = useState(false)
+function HomePage() {
   const year = useMemo(() => new Date().getFullYear(), [])
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 14)
-    onScroll()
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
+  const navigate = useNavigate()
 
   const platformBlocks = useMemo(
     () => [
@@ -181,40 +176,7 @@ function App() {
   )
 
   return (
-    <div className="min-h-screen bg-ink font-sans">
-      {/* Navbar */}
-      <header
-        className={[
-          'fixed left-0 right-0 top-0 z-50 transition-colors duration-300',
-          scrolled ? 'bg-ink/90 backdrop-blur-xl border-b border-white/10' : 'bg-transparent',
-        ].join(' ')}
-      >
-        <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-          <a href="#top" className="text-white hover:text-white transition-colors">
-            <span className="flex flex-col leading-tight">
-              <span className="text-2xl font-semibold tracking-tight sm:text-3xl">S2S</span>
-              <span className="mt-0.5 text-[0.65rem] font-medium uppercase tracking-[0.28em] text-white/70 sm:text-xs">
-                Scrap to Spark
-              </span>
-            </span>
-          </a>
-          <div className="hidden items-center gap-6 text-sm text-white/70 sm:flex">
-            <a className="hover:text-white transition-colors" href="#platform">
-              Platform
-            </a>
-            <a className="hover:text-white transition-colors" href="#capabilities">
-              Capabilities
-            </a>
-            <a className="hover:text-white transition-colors" href="#second-life">
-              Second-life
-            </a>
-            <a className="hover:text-white transition-colors" href="#contact">
-              Contact
-            </a>
-          </div>
-        </nav>
-      </header>
-
+    <>
       {/* Hero */}
       <section id="top" className="relative min-h-screen overflow-hidden">
         <div className="absolute inset-0">
@@ -236,30 +198,28 @@ function App() {
           >
             Battery Intelligence Infrastructure
             <br className="hidden sm:block" />
-            for the Second-Life Economy
+            for Second-Life Decisioning
           </h1>
           <p
             className="s2s-fade-up mt-6 max-w-xl text-pretty text-sm leading-relaxed text-white/70 sm:text-base"
             style={{ animationDelay: '340ms' }}
           >
-            S2S transforms raw EV battery telemetry into defensible reuse, risk, and carbon impact decisions — engineered
-            for commercial and regulatory rigor.
+            AI-powered evaluation platform that transforms raw battery telemetry into defensible reuse or recycle
+            determinations.
           </p>
 
           <div className="s2s-fade-up mt-10" style={{ animationDelay: '460ms' }}>
-            <div className="flex flex-wrap items-center gap-4">
-              <a
-                href="#contact"
-                className="inline-flex items-center justify-center rounded-full bg-accent px-7 py-3 text-sm font-medium text-ink transition-colors duration-200 hover:bg-accent/90"
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-5">
+              <button
+                type="button"
+                onClick={() => navigate('/analysis')}
+                className="inline-flex items-center justify-center rounded-[10px] bg-[radial-gradient(circle_at_0%_0%,#1b2a23,#0f1714)] px-8 py-3.5 text-sm font-medium text-white shadow-[0_18px_50px_rgba(0,0,0,0.65)] transition transform duration-200 hover:-translate-y-0.5 hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70"
               >
-                Request Platform Access
-              </a>
-              <a
-                href="#capabilities"
-                className="inline-flex items-center justify-center rounded-full border border-white/25 px-7 py-3 text-sm font-medium text-white/85 hover:border-white/40 hover:text-white"
-              >
-                View Capabilities
-              </a>
+                Analyze Battery Data
+              </button>
+              <p className="max-w-md text-xs text-white/60">
+                Upload CSV. Get RUL, Fire Risk &amp; Reuse Decision in Minutes.
+              </p>
             </div>
           </div>
         </div>
@@ -337,7 +297,7 @@ function App() {
             <div className="grid items-center gap-10 md:grid-cols-[1.4fr_0.6fr]">
               <div>
                 <h3 className="text-3xl font-medium tracking-[-0.02em] text-white sm:text-4xl">
-                  Build Battery Intelligence Infrastructure
+                  Start a Battery Analysis
                 </h3>
                 <p className="mt-4 max-w-2xl text-sm leading-relaxed text-white/65 sm:text-base">
                   Connect your telemetry, configure policies, and receive clear reuse or recycle recommendations with the
@@ -345,12 +305,13 @@ function App() {
                 </p>
               </div>
               <div className="flex md:justify-end">
-                <a
-                  href="#contact"
-                  className="inline-flex w-full items-center justify-center rounded-full bg-accent px-7 py-3 text-sm font-medium text-ink transition-colors duration-200 hover:bg-accent/90 md:w-auto"
+                <button
+                  type="button"
+                  onClick={() => navigate('/analysis')}
+                  className="inline-flex w-full items-center justify-center rounded-[10px] bg-[radial-gradient(circle_at_0%_0%,#1b2a23,#0f1714)] px-7 py-3 text-sm font-medium text-white shadow-[0_18px_50px_rgba(0,0,0,0.65)] transition transform duration-200 hover:-translate-y-0.5 hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 md:w-auto"
                 >
-                  Request Platform Access
-                </a>
+                  Analyze Now →
+                </button>
               </div>
             </div>
           </div>
@@ -410,21 +371,79 @@ function App() {
             <div className="text-white/55">Battery Intelligence Infrastructure</div>
           </div>
           <div className="flex flex-wrap items-center gap-4">
-            <a className="hover:text-white/70 transition-colors" href="#platform">
+            <a className="hover:text-white/70 transition-colors" href="/#platform">
               Platform
             </a>
-            <a className="hover:text-white/70 transition-colors" href="#capabilities">
+            <a className="hover:text-white/70 transition-colors" href="/#capabilities">
               Capabilities
             </a>
-            <a className="hover:text-white/70 transition-colors" href="#second-life">
+            <a className="hover:text-white/70 transition-colors" href="/#second-life">
               Second-Life
             </a>
-            <a className="hover:text-white/70 transition-colors" href="#contact">
+            <a className="hover:text-white/70 transition-colors" href="/#contact">
               Contact
             </a>
+            <Link className="hover:text-white/70 transition-colors" to="/analysis">
+              Analysis
+            </Link>
           </div>
         </div>
       </footer>
+    </>
+  )
+}
+
+function App() {
+  const [scrolled, setScrolled] = useState(false)
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 14)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  return (
+    <div className="min-h-screen bg-ink font-sans">
+      <header
+        className={[
+          'fixed left-0 right-0 top-0 z-50 transition-colors duration-300',
+          scrolled ? 'bg-ink/90 backdrop-blur-xl border-b border-white/10' : 'bg-transparent',
+        ].join(' ')}
+      >
+        <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+          <Link to="/" className="text-white hover:text-white transition-colors">
+            <span className="flex flex-col leading-tight">
+              <span className="text-2xl font-semibold tracking-tight sm:text-3xl">S2S</span>
+              <span className="mt-0.5 text-[0.65rem] font-medium uppercase tracking-[0.28em] text-white/70 sm:text-xs">
+                Scrap to Spark
+              </span>
+            </span>
+          </Link>
+          <div className="hidden items-center gap-6 text-sm text-white/70 sm:flex">
+            <a className="hover:text-white transition-colors" href="/#platform">
+              Platform
+            </a>
+            <a className="hover:text-white transition-colors" href="/#capabilities">
+              Capabilities
+            </a>
+            <a className="hover:text-white transition-colors" href="/#second-life">
+              Second-life
+            </a>
+            <Link className="hover:text-white transition-colors" to="/analysis">
+              Analysis
+            </Link>
+            <a className="hover:text-white transition-colors" href="/#contact">
+              Contact
+            </a>
+          </div>
+        </nav>
+      </header>
+
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/analysis" element={<AnalysisPage />} />
+      </Routes>
     </div>
   )
 }
