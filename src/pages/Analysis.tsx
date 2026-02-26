@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import axios from 'axios'
 import { UploadCard } from '../components/UploadCard'
 import { MetricsGrid } from '../components/MetricsGrid'
@@ -29,6 +29,7 @@ export function AnalysisPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [result, setResult] = useState<AnalysisResponse | null>(null)
+  const resultsRef = useRef<HTMLDivElement | null>(null)
 
   const handleFileSelect = (nextFile: File | null) => {
     if (!nextFile) {
@@ -74,31 +75,58 @@ export function AnalysisPage() {
     }
   }
 
+  useEffect(() => {
+    if (!result || !resultsRef.current) return
+
+    window.scrollTo({
+      top: resultsRef.current.offsetTop,
+      behavior: 'smooth',
+    })
+  }, [result])
+
   return (
-    <main className="min-h-screen bg-ink pb-20 pt-28 text-white">
-      <div className="mx-auto max-w-6xl px-6">
-        <header className="max-w-2xl">
-          <p className="text-xs font-medium tracking-[0.24em] text-white/55">BATTERY PACK ANALYSIS</p>
-          <h1 className="mt-4 text-3xl font-semibold tracking-[-0.02em] text-white sm:text-4xl">Analysis</h1>
-          <p className="mt-4 text-sm leading-relaxed text-white/70 sm:text-base">
-            Upload EV battery telemetry as CSV to generate remaining life, safety, and carbon impact insights from the
-            S2S analysis engine.
-          </p>
-        </header>
+    <main className="min-h-screen bg-ink text-white">
+      {/* Full-screen hero with background video */}
+      <section className="relative min-h-screen overflow-hidden">
+        <video
+          className="pointer-events-none absolute inset-0 h-full w-full object-cover -z-20"
+          src="/videos/video3.mp4"
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="auto"
+        />
+        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.75),rgba(0,0,0,0.9))] -z-10" />
 
-        <section className="mt-10">
-          <UploadCard
-            file={file}
-            loading={loading}
-            error={error}
-            onFileSelect={handleFileSelect}
-            onRunAnalysis={handleRunAnalysis}
-          />
-        </section>
+        <div className="relative mx-auto flex min-h-screen max-w-6xl items-center justify-center px-6 pt-28 pb-16">
+          <div className="w-full max-w-xl rounded-2xl border border-white/10 bg-[rgba(20,25,30,0.6)] p-10 text-left shadow-[0_30px_120px_rgba(0,0,0,0.85)] backdrop-blur-xl">
+            <h1 className="text-xl font-semibold tracking-[-0.02em] text-white sm:text-2xl">
+              Analyze Battery Telemetry
+            </h1>
+            <p className="mt-3 text-sm leading-relaxed text-white/70">
+              Upload a CSV file to generate remaining useful life, fire risk, and reuse recommendations from the S2S
+              analysis engine.
+            </p>
 
+            <div className="mt-7">
+              <UploadCard
+                file={file}
+                loading={loading}
+                error={error}
+                onFileSelect={handleFileSelect}
+                onRunAnalysis={handleRunAnalysis}
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Results dashboard */}
+      <div ref={resultsRef} className="mx-auto max-w-6xl px-6 pb-20">
         {result && (
           <>
-            <section className="mt-12">
+            <section className="mt-16">
               <MetricsGrid
                 rulYears={result.rul_years}
                 fireRiskScore={result.fire_risk_score}

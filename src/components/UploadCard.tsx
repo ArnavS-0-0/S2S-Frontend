@@ -27,11 +27,11 @@ export function UploadCard({ file, loading, error, onFileSelect, onRunAnalysis }
   const disabled = !file || loading
 
   return (
-    <div className="rounded-2xl border border-white/12 bg-white/5 p-6 sm:p-7">
+    <div>
       <div
         onDrop={handleDrop}
         onDragOver={handleDragOver}
-        className="flex flex-col items-center justify-center rounded-xl border border-dashed border-white/20 bg-black/20 px-6 py-10 text-center sm:px-10"
+        className="flex flex-col items-center justify-center rounded-xl border border-dashed border-white/20 bg-black/20 px-6 py-10 text-center shadow-[0_0_0_1px_rgba(148,163,184,0.1)] transition-shadow duration-200 hover:border-accent/60 hover:shadow-[0_0_0_1px_rgba(148,163,184,0.4),0_0_24px_rgba(99,184,127,0.18)] sm:px-10"
       >
         <p className="text-sm font-medium text-white/85">Upload CSV telemetry</p>
         <p className="mt-2 max-w-md text-xs leading-relaxed text-white/60">
@@ -67,7 +67,7 @@ export function UploadCard({ file, loading, error, onFileSelect, onRunAnalysis }
           {loading && (
             <span className="mr-2 h-3 w-3 animate-spin rounded-full border border-ink/30 border-t-ink" />
           )}
-          Run Analysis
+          Run AI Analysis
         </button>
       </div>
 
